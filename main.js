@@ -1,6 +1,7 @@
-// TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — SINGULARITY CORE (Ambient Audio + Full Fix)
+// TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — SINGULARITY CORE FINAL
+// 3D Engine + Bloom + Particles + Ambient Drone Audio + Interactivity
 
-console.log("[MAIN] main.js loaded - version with ambient drone");
+console.log("[MAIN] main.js loaded");
 
 const bootScreen     = document.getElementById('boot-screen');
 const initBtn        = document.getElementById('init-core-btn');
@@ -48,7 +49,7 @@ function init() {
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.zIndex = '1';
     experience.appendChild(renderer.domElement);
-    console.log("[INIT] Canvas appended to experience-container");
+    console.log("[INIT] Canvas appended");
 
     try {
         composer = new THREE.EffectComposer(renderer);
@@ -64,7 +65,7 @@ function init() {
         composer = { render: () => renderer.render(scene, camera) };
     }
 
-    // Core orb - visible
+    // Core orb
     const coreGeo = new THREE.IcosahedronGeometry(28, 5);
     const coreMat = new THREE.MeshBasicMaterial({
         color: 0x00ffff,
@@ -76,7 +77,7 @@ function init() {
     coreMesh = new THREE.Mesh(coreGeo, coreMat);
     scene.add(coreMesh);
 
-    // Particles - visible
+    // Particles
     const particleCount = 15000;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -195,7 +196,7 @@ async function enableAudio() {
         audioEnabled = true;
         console.log("[AUDIO] Microphone active");
 
-        for (let i = 0; i < 32; i++) {
+        for (let i = 0; i = 32; i++) {
             const bin = document.createElement('div');
             bin.className = 'bin';
             freqBins.appendChild(bin);
@@ -296,6 +297,18 @@ function animate() {
             }
             particles.geometry.attributes.position.needsUpdate = true;
         }
+
+        if (audioEnabled && analyser) {
+            analyser.getByteFrequencyData(dataArray);
+            const bins = document.querySelectorAll('.bin');
+            if (bins.length > 0) {
+                const step = Math.floor(dataArray.length / bins.length);
+                bins.forEach((bin, i) => {
+                    const val = dataArray[i * step] / 255 * 100;
+                    bin.style.height = `${val}%`;
+                });
+            }
+        }
     }
 
     if (composer) composer.render();
@@ -326,4 +339,4 @@ init();
 animate();
 
 initBtn.addEventListener('click', startAscension);
-console.log("[MAIN] Ready - waiting for INITIATE ASCENSION click");
+console.log("[MAIN] Ready - waiting for click");
