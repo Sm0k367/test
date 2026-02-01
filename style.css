@@ -1,0 +1,67 @@
+/**
+ * TSL: GEOMETRIC SINGULARITY vΩ — VISUAL LAW
+ * Manifested by DesignCore Elite
+ * Style: Mythic-Tech Fusion | Absolute Excellence
+ */
+
+:root {
+    --void-black: #000000;
+    --void-gray: #1a1a1a;
+    --omega-cyan: #00f2ff;
+    --font-brutal: 'Courier New', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* Deep black to dark gray gradient towards the top */
+    background: linear-gradient(to top, var(--void-black) 0%, var(--void-gray) 100%);
+    font-family: var(--font-brutal);
+    color: var(--omega-cyan);
+}
+
+/* The Pan-Dimensional Canvas */
+#experience-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* The Sovereign HUD: Orchestrated by Visionary Corps */
+#hud-overlay {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 10;
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
+.sys-info {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+    text-shadow: 0 0 10px var(--omega-cyan);
+}
+
+/* Depth and Atmosphere Enhancements */
+#experience-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, var(--void-black) 90%);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.5;
+}
