@@ -6,29 +6,19 @@
     <title>TSL | THE ABSOLUTE ALGORITHM | vΩ.∞</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- Core Three.js -->
+    <!-- Three.js core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 
-    <!-- Base Pass class -->
+    <!-- Post-processing dependencies in correct order -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/Pass.js"></script>
-
-    <!-- CopyShader -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/CopyShader.js"></script>
-
-    <!-- ShaderPass -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/ShaderPass.js"></script>
-
-    <!-- LuminosityHighPassShader – THIS IS THE MISSING ONE FOR BLOOM -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-
-    <!-- EffectComposer -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/EffectComposer.js"></script>
-
-    <!-- Other passes -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/RenderPass.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
-    <!-- GSAP -->
+    <!-- GSAP for smooth animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
@@ -71,18 +61,5 @@
     <div id="experience-container"></div>
 
     <script src="main.js"></script>
-
-    <!-- Debug script -->
-    <script>
-        console.log("index.html loaded – all post-processing dependencies should be ready");
-        document.addEventListener('DOMContentLoaded', () => {
-            const btn = document.getElementById('init-core-btn');
-            if (btn) {
-                btn.addEventListener('click', () => {
-                    console.log("Button clicked – ascension starting");
-                });
-            }
-        });
-    </script>
 </body>
 </html>
