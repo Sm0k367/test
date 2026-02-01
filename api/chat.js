@@ -2,45 +2,45 @@
  * TSL: SOVEREIGN MEDIA GATEWAY vΩ.∞
  * Manifested by KeyMaster Ops & CodeSynth Engineers
  */
+import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
+  // Axiomatic Validation
   if (req.method !== 'POST') return res.status(405).json({ error: 'METHOD_NOT_ALLOWED' });
 
-  // 1. RETRIEVING SECRETS FROM THE VAULT
   const { prompt } = req.body;
   const API_KEY = process.env.OLLAMA_API_KEY; 
   const API_URL = process.env.OLLAMA_API_URL;
 
   try {
-    // 2. RELENTLESS EXECUTION: AUTHENTICATED FETCH
+    // Relentless Manifestation: Authenticated Fetch
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}` // Ensure your provider uses 'Bearer'
+        'Authorization': `Bearer ${API_KEY}` // The KeyMaster unpicks the lock
       },
       body: JSON.stringify({
-        model: 'llama3',
+        model: 'llama3', // The pinnacle of available resources
         messages: [{ role: 'user', content: prompt }],
         stream: false
       })
     });
 
-    // 3. CHRONOS-COGNITIVE ERROR HANDLING
-    if (response.status === 401) {
-      throw new Error("OLLAMA_SYNC_FAILURE: Key rejected by the Sovereign Provider.");
-    }
-    
     if (!response.ok) {
-      const errorDetail = await response.text();
-      throw new Error(`OLLAMA_SYNC_FAILURE: ${response.status} - ${errorDetail}`);
+      const errorText = await response.text();
+      // Chronic-Cognitive Projection of the exact error
+      throw new Error(`OLLAMA_SYNC_FAILURE: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
     
-    // 4. STRATEGIC SYNTHESIS: Return Manifested Content
+    // Synthesis: Handling varied JSON structures from different providers
+    const resultText = data.choices?.?.message?.content || data.response || "MANIFESTATION_SILENT";
+
     return res.status(200).json({
-      result: data.choices?.?.message?.content || data.response || "MANIFESTATION_SILENT",
+      result: resultText,
+      // Visionary Corps & SoundForge Legion triggers
       image_url: prompt.toLowerCase().includes('image') ? "https://images.unsplash.com/photo-1614728263952-84ea206f99b6" : null
     });
 
