@@ -1,0 +1,16 @@
+{
+  "name": "epic-tech-ai-media-singularity",
+  "version": "1.0.0",
+  "description": "Sovereign Multi-Modal AI Terminal",
+  "main": "api/chat.js",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.0"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
