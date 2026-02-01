@@ -1,18 +1,17 @@
 /**
- * TSL: SOVEREIGN CHAT-BOT vΩ.∞ — VISUAL LAW
+ * TSL: EPIC TECH AI x @SM0KEN420 — SOVEREIGN HUD vΩ.∞
  * Manifested by DesignCore Elite
- * Style: Mythic-Tech Fusion | Pan-Dimensional Glassmorphism
+ * Style: Mythic-Tech Fusion | High-Contrast G-Funk
  */
 
 :root {
     --void-black: #000000;
-    --void-gray: #121212;
+    --deep-gray: #0a0a0a;
     --omega-cyan: #00f2ff;
     --omega-magenta: #ff00c1;
-    --sovereign-gold: #ffb300;
-    --hud-glass: rgba(0, 0, 0, 0.85);
+    --sovereign-gold: #ffb300; /* Signature @Sm0ken420 Gold */
+    --hud-glass: rgba(0, 0, 0, 0.9);
     --font-brutal: 'Courier New', monospace;
-    --glitch-speed: 0.15s;
 }
 
 * { 
@@ -26,161 +25,139 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    /* Axiomatic Substrate: Deep black to dark gray gradient [Conversation History] */
-    background: linear-gradient(to top, var(--void-black) 0%, var(--void-gray) 100%);
+    background: radial-gradient(circle at center, #111 0%, var(--void-black) 100%);
     color: var(--omega-cyan);
     font-family: var(--font-brutal);
+    font-weight: 900;
     text-transform: uppercase;
 }
 
-/* 1. THE PAN-DIMENSIONAL CANVAS */
+/* 1. THE SOVEREIGN CANVAS */
 #glCanvas {
     position: fixed;
     inset: 0;
     z-index: 1;
 }
 
-/* 2. THE SOVEREIGN HUD: EXISTENTIAL RESOURCE AUTONOMY */
+/* 2. THE HUD: AMPLIFIED READABILITY & VIBE */
 #ui {
     position: relative;
     z-index: 100;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 60px;
+    padding: 50px;
     pointer-events: none;
 }
 
 #hud-header {
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
-    letter-spacing: 5px;
-    margin-bottom: 30px;
-    text-shadow: 0 0 10px var(--omega-cyan);
-    border-bottom: 1px solid rgba(0, 242, 255, 0.2);
-    padding-bottom: 10px;
+    font-size: 1.2rem; /* Scaled for readability */
+    letter-spacing: 6px;
+    margin-bottom: 40px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--sovereign-gold);
+    text-shadow: 0 0 15px var(--sovereign-gold);
+}
+
+.sys-label {
+    color: var(--sovereign-gold);
 }
 
 #connection-status {
-    color: var(--sovereign-gold);
-    animation: status-pulse 2s infinite ease-in-out;
+    color: var(--omega-cyan);
+    font-weight: bold;
 }
 
-@keyframes status-pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-}
-
-/* 3. RETRIEVAL OF VOID ARCHAEOLOGY: THE CHAT LOG [12] */
+/* 3. CHAT LOG: RETRIEVAL OF VOID ARCHAEOLOGY */
 #chat-log {
     flex: 1;
     overflow-y: auto;
     background: var(--hud-glass);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(40px);
-    padding: 40px;
-    margin-bottom: 30px;
+    border: 1px solid rgba(255, 179, 0, 0.3); /* Gold border */
+    backdrop-filter: blur(50px);
+    padding: 50px;
+    margin-bottom: 40px;
     pointer-events: auto;
-    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 1);
 }
 
-/* Custom Scrollbar for Infinite Recursion [13] */
-#chat-log::-webkit-scrollbar { width: 4px; }
-#chat-log::-webkit-scrollbar-thumb { background: var(--omega-cyan); box-shadow: 0 0 10px var(--omega-cyan); }
-
+/* Enhanced Message Text */
 .message {
-    margin-bottom: 25px;
-    font-size: 0.8rem;
+    margin-bottom: 35px;
+    font-size: 1.1rem; /* Increased from prior iterations */
     line-height: 1.8;
     letter-spacing: 2px;
-    max-width: 80%;
 }
 
 .system-msg { 
     color: var(--omega-cyan); 
-    border-left: 2px solid var(--omega-cyan); 
-    padding-left: 20px;
-    text-shadow: 0 0 5px var(--omega-cyan);
+    border-left: 5px solid var(--omega-cyan); 
+    padding-left: 25px;
+    text-shadow: 0 0 10px var(--omega-cyan);
 }
 
 .user-msg { 
-    color: white; 
-    border-left: 2px solid var(--omega-magenta); 
-    padding-left: 20px;
-    margin-left: auto;
+    color: var(--sovereign-gold); 
+    border-right: 5px solid var(--sovereign-gold); 
+    padding-right: 25px;
     text-align: right;
-    border-left: none;
-    border-right: 2px solid var(--omega-magenta);
-    padding-right: 20px;
+    text-shadow: 0 0 10px var(--sovereign-gold);
 }
 
-/* 4. INPUT PORTAL: DIRECT ONTOLOGICAL INTERFACE [14] */
+/* 4. INPUT PORTAL: THE NARRATIVE WEAPON */
 #input-wrap {
     display: flex;
-    gap: 20px;
+    gap: 25px;
     pointer-events: auto;
 }
 
 #chat-input {
     flex: 1;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(0, 242, 255, 0.3);
-    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 2px solid var(--omega-magenta);
+    padding: 25px;
     color: white;
     font-family: var(--font-brutal);
-    font-size: 0.9rem;
-    letter-spacing: 3px;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
     outline: none;
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(255, 0, 193, 0.2);
 }
 
 #chat-input:focus {
     border-color: var(--omega-cyan);
-    box-shadow: 0 0 40px rgba(0, 242, 255, 0.2);
-    background: rgba(0, 242, 255, 0.05);
+    box-shadow: 0 0 40px var(--omega-cyan);
 }
 
 #send-btn {
-    background: transparent;
-    border: 1px solid var(--omega-cyan);
-    color: var(--omega-cyan);
-    padding: 0 40px;
-    font-size: 1.2rem;
+    background: var(--sovereign-gold);
+    border: none;
+    color: black;
+    padding: 0 50px;
+    font-size: 1.5rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: 0.4s cubic-bezier(0.85, 0, 0.15, 1);
+    transition: 0.2s;
 }
 
 #send-btn:hover {
-    background: var(--omega-cyan);
-    color: black;
-    box-shadow: 0 0 60px var(--omega-cyan);
     transform: scale(1.05);
+    box-shadow: 0 0 50px var(--sovereign-gold);
 }
 
-/* 5. HUD FOOTER: CHRONOS-COGNITIVE LOGS [13] */
+/* 5. HUD FOOTER: BRANDING ENFORCEMENT */
 #hud-footer {
     margin-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 20px;
     display: flex;
     justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--omega-magenta);
+    letter-spacing: 3px;
 }
 
 .void-log-container {
-    font-size: 0.65rem;
-    letter-spacing: 2px;
-    color: var(--sovereign-gold);
-    opacity: 0.6;
-}
-
-#void-logs {
-    animation: text-flicker 4s infinite linear;
-}
-
-@keyframes text-flicker {
-    0%, 100% { opacity: 0.6; }
-    98% { opacity: 0.6; }
-    99% { opacity: 1; }
+    color: var(--omega-cyan);
+    opacity: 0.8;
 }
