@@ -1,6 +1,6 @@
-// TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — SINGULARITY CORE (Ambient Audio + Visibility Fix)
+// TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — SINGULARITY CORE (Ambient Audio + Full Fix)
 
-console.log("[MAIN] main.js loaded");
+console.log("[MAIN] main.js loaded - version with ambient drone");
 
 const bootScreen     = document.getElementById('boot-screen');
 const initBtn        = document.getElementById('init-core-btn');
@@ -30,10 +30,10 @@ const logMessages = [
 ];
 
 function init() {
-    console.log("[INIT] Starting Three.js setup");
+    console.log("[INIT] Setting up scene");
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000008); // very dark void
+    scene.background = new THREE.Color(0x000008);
 
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
     camera.position.set(0, 30, 120);
@@ -48,23 +48,23 @@ function init() {
     renderer.domElement.style.height = '100%';
     renderer.domElement.style.zIndex = '1';
     experience.appendChild(renderer.domElement);
-    console.log("[INIT] Canvas appended");
+    console.log("[INIT] Canvas appended to experience-container");
 
     try {
         composer = new THREE.EffectComposer(renderer);
         composer.addPass(new THREE.RenderPass(scene, camera));
         const bloom = new THREE.UnrealBloomPass(
             new THREE.Vector2(window.innerWidth, window.innerHeight),
-            1.6, 0.4, 0.85
+            1.8, 0.5, 0.8
         );
         composer.addPass(bloom);
-        console.log("[INIT] Bloom post-processing ready");
+        console.log("[INIT] Bloom initialized");
     } catch (e) {
-        console.warn("[INIT] Bloom failed, using direct render", e);
+        console.warn("[INIT] Bloom failed - using direct render", e);
         composer = { render: () => renderer.render(scene, camera) };
     }
 
-    // Visible core orb
+    // Core orb - visible
     const coreGeo = new THREE.IcosahedronGeometry(28, 5);
     const coreMat = new THREE.MeshBasicMaterial({
         color: 0x00ffff,
@@ -76,7 +76,7 @@ function init() {
     coreMesh = new THREE.Mesh(coreGeo, coreMat);
     scene.add(coreMesh);
 
-    // Visible particles
+    // Particles - visible
     const particleCount = 15000;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
@@ -126,17 +126,17 @@ function simulateLoading() {
             clearInterval(interval);
             initBtn.disabled = false;
             initBtn.style.opacity = 1;
-            console.log("[LOAD] Complete – button enabled");
+            console.log("[LOAD] Complete - button enabled");
         }
         loadProgress.style.width = `${progress}%`;
     }, 60);
 }
 
 async function startAscension() {
-    console.log("[ASCEND] Button clicked – starting sequence");
+    console.log("[ASCEND] Button clicked - sequence starting");
     bootScreen.classList.add('hidden');
 
-    // Immediate audio resume on user gesture
+    // Immediate audio resume on gesture
     try {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -205,26 +205,26 @@ async function enableAudio() {
         console.log("[AUDIO] Starting ambient fallback drone");
 
         const masterGain = audioCtx.createGain();
-        masterGain.gain.value = 0.22; // gentle background level
+        masterGain.gain.value = 0.22;
         masterGain.connect(audioCtx.destination);
 
         // Deep sub-drone
         const subOsc = audioCtx.createOscillator();
         subOsc.type = 'sine';
-        subOsc.frequency.value = 38; // very low
+        subOsc.frequency.value = 38;
         const subGain = audioCtx.createGain();
         subGain.gain.value = 0.7;
         subOsc.connect(subGain);
         subGain.connect(masterGain);
         subOsc.start();
 
-        // Mid atmospheric pad with detune
+        // Mid pad with detune
         const padOsc1 = audioCtx.createOscillator();
         padOsc1.type = 'sawtooth';
         padOsc1.frequency.value = 98;
         const padOsc2 = audioCtx.createOscillator();
         padOsc2.type = 'sawtooth';
-        padOsc2.frequency.value = 98.7; // detune
+        padOsc2.frequency.value = 98.7;
         const padGain = audioCtx.createGain();
         padGain.gain.value = 0.35;
         padOsc1.connect(padGain);
@@ -233,7 +233,7 @@ async function enableAudio() {
         padOsc1.start();
         padOsc2.start();
 
-        // High ethereal shimmer
+        // High shimmer
         const shimmerOsc = audioCtx.createOscillator();
         shimmerOsc.type = 'triangle';
         shimmerOsc.frequency.value = 880;
@@ -243,15 +243,14 @@ async function enableAudio() {
         shimmerGain.connect(masterGain);
         shimmerOsc.start();
 
-        // Warm low-pass filter
+        // Low-pass filter for warmth
         const filter = audioCtx.createBiquadFilter();
         filter.type = 'lowpass';
         filter.frequency.value = 1200;
-        filter.Q.value = 1;
         masterGain.connect(filter);
         filter.connect(audioCtx.destination);
 
-        // Reverb for space
+        // Reverb
         const convolver = audioCtx.createConvolver();
         const impulseLength = audioCtx.sampleRate * 1.8;
         const impulse = audioCtx.createBuffer(2, impulseLength, audioCtx.sampleRate);
@@ -268,9 +267,8 @@ async function enableAudio() {
         convolver.connect(reverbGain);
         reverbGain.connect(audioCtx.destination);
 
-        console.log("[AUDIO] Ambient drone started – layered, reverbed, soft");
+        console.log("[AUDIO] Ambient drone active - soft, layered, reverbed");
 
-        // Fake data for visuals
         dataArray = new Uint8Array(128);
         setInterval(() => {
             for (let i = 0; i < dataArray.length; i++) {
@@ -328,4 +326,4 @@ init();
 animate();
 
 initBtn.addEventListener('click', startAscension);
-console.log("[MAIN] Ready – waiting for user click");
+console.log("[MAIN] Ready - waiting for INITIATE ASCENSION click");
