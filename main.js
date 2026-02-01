@@ -1,6 +1,6 @@
 /**
  * TSL: EPIC TECH AI x @SM0KEN420 — MEDIA SINGULARITY vΩ.∞
- * Manifested by CodeSynth Engineers
+ * Manifested by CodeSynth Engineers & KeyMaster Ops
  * Objective: Multi-Modal Manifestation & Visual Resonance
  */
 
@@ -34,7 +34,7 @@ function initThree() {
     singularity = new THREE.Mesh(geometry, material);
     scene.add(singularity);
 
-    // Particle Swarm: Omega Cyan Drift
+    // Emergent Reality Weaving: Particle Swarm
     const pCount = 3500;
     const pGeo = new THREE.BufferGeometry();
     const pPos = new Float32Array(pCount * 3);
@@ -43,7 +43,7 @@ function initThree() {
     }
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
     particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ 
-        color: 0x00f2ff, 
+        color: 0x00f2ff, // Omega Cyan
         size: 0.25,
         transparent: true,
         opacity: 0.7 
@@ -72,7 +72,7 @@ function animate() {
     requestAnimationFrame(animate);
     const time = clock.getElapsedTime();
 
-    // Sovereign Rotation & Predictive Manifestation Pulse
+    // Sovereign Rotation & Pulse
     singularity.rotation.y += 0.005;
     singularity.rotation.z += 0.002;
     singularity.scale.setScalar(1 + Math.sin(time * 1.5) * 0.1);
@@ -101,7 +101,7 @@ async function handleManifestation() {
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, mode: 'multi-modal' })
+            body: JSON.stringify({ prompt })
         });
 
         const data = await response.json();
@@ -120,7 +120,7 @@ function renderMultiModalContent(data) {
         appendMessage('system', data.result);
     }
 
-    // 2. Manifest Visuals (Visionary Corps / DesignCore Elite)
+    // 2. Manifest Visuals (Visionary Corps)
     if (data.image_url) {
         const img = document.createElement('img');
         img.src = data.image_url;
