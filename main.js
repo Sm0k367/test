@@ -1,5 +1,7 @@
 // TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — SINGULARITY CORE v1000x
-// Non-module version: uses global THREE from CDN
+// Non-module, global THREE version with debug logs
+
+console.log("main.js started loading");
 
 // ─── DOM Elements ───────────────────────────────────────────────────────────────
 const bootScreen     = document.getElementById('boot-screen');
@@ -32,6 +34,13 @@ const logMessages = [
 
 // ─── Init Scene ────────────────────────────────────────────────────────────────
 function init() {
+    console.log("init() called – setting up Three.js scene");
+
+    if (typeof THREE === 'undefined') {
+        console.error("THREE is not defined – core library failed to load");
+        return;
+    }
+
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000004);
     scene.fog = new THREE.FogExp2(0x000004, 0.00028);
@@ -44,16 +53,22 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     experience.appendChild(renderer.domElement);
 
-    // Post-processing
-    composer = new THREE.EffectComposer(renderer);
-    const renderPass = new THREE.RenderPass(scene, camera);
-    composer.addPass(renderPass);
+    // Post-processing – with safety check
+    if (typeof THREE.EffectComposer !== 'undefined' && typeof THREE.RenderPass !== 'undefined' && typeof THREE.UnrealBloomPass !== 'undefined') {
+        composer = new THREE.EffectComposer(renderer);
+        const renderPass = new THREE.RenderPass(scene, camera);
+        composer.addPass(renderPass);
 
-    const bloom = new THREE.UnrealBloomPass(
-        new THREE.Vector2(window.innerWidth, window.innerHeight),
-        2.4, 0.55, 0.78
-    );
-    composer.addPass(bloom);
+        const bloom = new THREE.UnrealBloomPass(
+            new THREE.Vector2(window.innerWidth, window.innerHeight),
+            2.4, 0.55, 0.78
+        );
+        composer.addPass(bloom);
+        console.log("Post-processing (bloom) initialized successfully");
+    } else {
+        console.warn("Post-processing not available – falling back to direct render");
+        composer = { render: () => renderer.render(scene, camera) };
+    }
 
     // Core orb
     const coreGeo = new THREE.IcosahedronGeometry(22, 4);
@@ -106,10 +121,11 @@ function init() {
     window.addEventListener('resize', onResize);
     window.addEventListener('touchmove', onTouchMove, { passive: true });
 
+    console.log("init() completed – scene ready");
     simulateLoading();
 }
 
-// Loading bar fake progress
+// Loading bar
 function simulateLoading() {
     let progress = 0;
     const interval = setInterval(() => {
@@ -117,27 +133,35 @@ function simulateLoading() {
         if (progress >= 100) {
             progress = 100;
             clearInterval(interval);
-            initBtn.disabled = false;
-            initBtn.style.opacity = 1;
+            if (initBtn) {
+                initBtn.disabled = false;
+                initBtn.style.opacity = 1;
+                console.log("Loading complete – button enabled");
+            }
         }
-        loadProgress.style.width = `${progress}%`;
+        if (loadProgress) loadProgress.style.width = `${progress}%`;
     }, 60);
 }
 
-// Ascension start
+// Ascension
 function startAscension() {
+    console.log("startAscension() triggered");
     bootScreen.classList.add('hidden');
 
     setTimeout(() => {
-        hudOverlay.style.display = 'block';
-        setTimeout(() => hudOverlay.classList.add('active'), 300);
+        if (hudOverlay) {
+            hudOverlay.style.display = 'block';
+            setTimeout(() => hudOverlay.classList.add('active'), 300);
+        }
         startChronoClock();
         startLogStreamer();
         enableAudio();
     }, 1800);
 
     ascensionPhase = 1;
-    gsap.to(camera.position, { z: 60, y: 20, duration: 14, ease: "power4.inOut" });
+    if (typeof gsap !== 'undefined') {
+        gsap.to(camera.position, { z: 60, y: 20, duration: 14, ease: "power4.inOut" });
+    }
 }
 
 // Clock
@@ -145,7 +169,7 @@ function startChronoClock() {
     setInterval(() => {
         const now = new Date();
         const pad = n => n.toString().padStart(2, '0');
-        chronoClock.textContent = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}.${now.getUTCMilliseconds().toString().padStart(3, '0')} GMT+00:00:00`;
+        if (chronoClock) chronoClock.textContent = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}:${pad(now.getUTCSeconds())}.${now.getUTCMilliseconds().toString().padStart(3, '0')} GMT+00:00:00`;
     }, 31);
 }
 
@@ -157,8 +181,10 @@ function startLogStreamer() {
         const div = document.createElement('div');
         div.className = 'log-entry';
         div.textContent = logMessages[idx];
-        voidLogs.appendChild(div);
-        voidLogs.scrollTop = voidLogs.scrollHeight;
+        if (voidLogs) {
+            voidLogs.appendChild(div);
+            voidLogs.scrollTop = voidLogs.scrollHeight;
+        }
         idx++;
     }, 2800 + Math.random() * 2200);
 }
@@ -175,14 +201,14 @@ async function enableAudio() {
         dataArray = new Uint8Array(analyser.frequencyBinCount);
         audioEnabled = true;
 
-        // Create bars
         for (let i = 0; i < 32; i++) {
             const bin = document.createElement('div');
             bin.className = 'bin';
-            freqBins.appendChild(bin);
+            if (freqBins) freqBins.appendChild(bin);
         }
+        console.log("Audio from microphone enabled");
     } catch (e) {
-        // Fallback tone
+        console.log("Mic access denied – using fallback tone");
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = audioCtx.createOscillator();
         osc.type = 'sine';
@@ -199,46 +225,51 @@ async function enableAudio() {
     }
 }
 
-// Animate loop
+// Animate
 function animate() {
     requestAnimationFrame(animate);
     time += 0.016;
 
     if (ascensionPhase >= 1) {
-        coreMesh.rotation.x += 0.003;
-        coreMesh.rotation.y += 0.0045;
-        coreMesh.scale.setScalar(1 + Math.sin(time * 2) * 0.08);
-
-        const positions = particles.geometry.attributes.position.array;
-        if (analyser && audioEnabled) analyser.getByteFrequencyData(dataArray);
-
-        const bins = document.querySelectorAll('.bin');
-        for (let i = 0; i < positions.length; i += 3) {
-            const idx = Math.floor(i / 3);
-            const freq = audioEnabled && analyser ? (dataArray[idx % dataArray.length] / 255) : 0.5;
-            const pulse = Math.sin(time * 6 + idx * 0.02) * 18 * freq;
-
-            positions[i]     += Math.cos(time * 1.4 + idx) * 0.3;
-            positions[i + 1] += Math.sin(time * 2.1 + idx * 0.5) * 0.4 + pulse * 0.12;
-            positions[i + 2] += Math.sin(time * 0.9 + idx * 0.7) * 0.25;
+        if (coreMesh) {
+            coreMesh.rotation.x += 0.003;
+            coreMesh.rotation.y += 0.0045;
+            coreMesh.scale.setScalar(1 + Math.sin(time * 2) * 0.08);
         }
-        particles.geometry.attributes.position.needsUpdate = true;
 
-        // Update bins
-        if (bins.length > 0 && audioEnabled) {
-            const step = Math.floor(dataArray.length / bins.length);
-            bins.forEach((bin, i) => {
-                const val = dataArray[i * step] / 255 * 100;
-                bin.style.height = `${val}%`;
-            });
+        if (particles) {
+            const positions = particles.geometry.attributes.position.array;
+            if (analyser && audioEnabled) analyser.getByteFrequencyData(dataArray);
+
+            const bins = document.querySelectorAll('.bin');
+            for (let i = 0; i < positions.length; i += 3) {
+                const idx = Math.floor(i / 3);
+                const freq = audioEnabled && analyser ? (dataArray[idx % dataArray.length] / 255) : 0.5;
+                const pulse = Math.sin(time * 6 + idx * 0.02) * 18 * freq;
+
+                positions[i]     += Math.cos(time * 1.4 + idx) * 0.3;
+                positions[i + 1] += Math.sin(time * 2.1 + idx * 0.5) * 0.4 + pulse * 0.12;
+                positions[i + 2] += Math.sin(time * 0.9 + idx * 0.7) * 0.25;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            if (bins.length > 0 && audioEnabled) {
+                const step = Math.floor(dataArray.length / bins.length);
+                bins.forEach((bin, i) => {
+                    const val = dataArray[i * step] / 255 * 100;
+                    bin.style.height = `${val}%`;
+                });
+            }
         }
     }
 
-    camera.position.x = Math.sin(time * 0.18) * 35;
-    camera.position.z = 90 + Math.cos(time * 0.14) * 50;
-    camera.lookAt(0, 0, 0);
+    if (camera) {
+        camera.position.x = Math.sin(time * 0.18) * 35;
+        camera.position.z = 90 + Math.cos(time * 0.14) * 50;
+        camera.lookAt(0, 0, 0);
+    }
 
-    composer.render();
+    if (composer) composer.render();
 }
 
 // Mouse/touch
@@ -246,26 +277,38 @@ let mouseX = 0, mouseY = 0;
 function onMouseMove(e) {
     mouseX = (e.clientX / window.innerWidth) * 2 - 1;
     mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-    gsap.to(camera.rotation, { y: mouseX * 0.14, x: mouseY * 0.10, duration: 1.8, ease: "power2.out" });
+    if (typeof gsap !== 'undefined') {
+        gsap.to(camera.rotation, { y: mouseX * 0.14, x: mouseY * 0.10, duration: 1.8, ease: "power2.out" });
+    }
 }
 function onTouchMove(e) {
     if (e.touches) {
         mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
         mouseY = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
-        gsap.to(camera.rotation, { y: mouseX * 0.14, x: mouseY * 0.10, duration: 1.8, ease: "power2.out" });
+        if (typeof gsap !== 'undefined') {
+            gsap.to(camera.rotation, { y: mouseX * 0.14, x: mouseY * 0.10, duration: 1.8, ease: "power2.out" });
+        }
     }
 }
 
 function onResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
+    if (camera) {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+    }
+    if (renderer) renderer.setSize(window.innerWidth, window.innerHeight);
+    if (composer) composer.setSize(window.innerWidth, window.innerHeight);
 }
 
-// Start
+// Start everything
 init();
 animate();
 
-// Button trigger
-initBtn.addEventListener('click', startAscension);
+if (initBtn) {
+    initBtn.addEventListener('click', startAscension);
+    console.log("Button event listener attached");
+} else {
+    console.error("init-core-btn not found");
+}
+
+console.log("main.js fully loaded and executed");
