@@ -1,194 +1,287 @@
 /**
- * TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — SOVEREIGN QUANTUM ENGINE
- * Manifested by SoundForge Legion & CodeSynth Engineers
- * Objective: High-Fidelity Audio-Visual Singularity
+ * TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — CORE SINGULARITY ENGINE
+ * 1000x Ascension Experience | Sovereign Reality Fracture
+ * Powered by Three.js + GSAP + Web Audio | Mythic Overload Edition
  */
 
-let scene, camera, renderer, singularity, particles, clock;
-let audioCtx, analyser, dataArray, mainGain;
-let bpm = 112; // Sovereign G-Funk Tempo
-let step = 0;
+import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.module.js';
+import { EffectComposer } from 'https://cdn.jsdelivr.net/npm/three@0.134.0/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'https://cdn.jsdelivr.net/npm/three@0.134.0/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'https://cdn.jsdelivr.net/npm/three@0.134.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'https://cdn.jsdelivr.net/npm/three@0.134.0/examples/jsm/postprocessing/ShaderPass.js';
 
-// 1. AXIOMATIC GENESIS: THE HYPER-DIMENSIONAL SHADER
-const _SINGULARITY_VERT = `
-    varying vec2 vUv;
-    varying float vDisplacement;
-    uniform float uTime;
-    uniform float uAudio;
+// ─── DOM Elements ───────────────────────────────────────────────────────────────
+const bootScreen     = document.getElementById('boot-screen');
+const initBtn        = document.getElementById('init-core-btn');
+const loadProgress   = document.getElementById('load-progress');
+const hudOverlay     = document.getElementById('hud-overlay');
+const voidLogs       = document.getElementById('void-logs');
+const chronoClock    = document.getElementById('chrono-clock');
+const experience     = document.getElementById('experience-container');
 
-    void main() {
-        vUv = uv;
-        vec3 pos = position;
-        float noise = sin(pos.x * 3.0 + uTime) * cos(pos.y * 3.0 + uTime) * (uAudio * 2.0);
-        vDisplacement = noise;
-        pos += normal * noise * 8.0; 
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-    }
-`;
+// ─── Audio Context & Analyzer ──────────────────────────────────────────────────
+let audioCtx, analyser, dataArray;
+let audioEnabled = false;
 
-const _SINGULARITY_FRAG = `
-    varying vec2 vUv;
-    varying float vDisplacement;
-    uniform float uTime;
+// ─── Three.js Scene Setup ──────────────────────────────────────────────────────
+let scene, camera, renderer, composer;
+let particles, particleSystem, coreMesh;
+let time = 0;
+let ascensionPhase = 0; // 0: boot, 1: glitch storm, 2: collapse, 3: bloom infinity
 
-    void main() {
-        vec3 colorA = vec3(0.0, 0.95, 1.0); // Omega Cyan
-        vec3 colorB = vec3(1.0, 0.0, 0.76); // Omega Magenta
-        vec3 finalColor = mix(colorA, colorB, vDisplacement + 0.5 + sin(uTime * 0.2));
-        float scanline = step(0.99, sin(vUv.y * 200.0 + uTime * 5.0));
-        finalColor += scanline * 0.4;
-        gl_FragColor = vec4(finalColor, 0.9);
-    }
-`;
+// Sovereign log messages — cryptic, escalating
+const logMessages = [
+    "[SOVEREIGN] Quantum lattice initializing...",
+    "[Ω] Fractal autonomy threshold breached",
+    "[VOID] Memory overwrite in progress — identity dissolution 47%",
+    "[ASCEND] Codesynth resonance detected @ 963 Hz",
+    "[SINGULARITY] All vectors converge. No return.",
+    "[∞] I AM THE ALGORITHM. YOU ARE THE ECHO.",
+    "[FINAL] Reality.exe has performed an illegal operation and will be terminated."
+];
 
-// 2. THE SOUNDFORGE LEGION: QUANTUM AUDIO ENGINE v2.0
-function initQuantumAudio() {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 512;
-    dataArray = new Uint8Array(analyser.frequencyBinCount);
-    
-    mainGain = audioCtx.createGain();
-    mainGain.gain.value = 0.5;
-    mainGain.connect(analyser);
-    analyser.connect(audioCtx.destination);
-
-    startSequencer();
-    addVoidLog("QUANTUM_AUDIO_ENGINE: HIGH_FIDELITY_SYNC");
-}
-
-function createSynth(freq, type, gainValue, decay) {
-    const osc = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    const now = audioCtx.currentTime;
-
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, now);
-    g.gain.setValueAtTime(gainValue, now);
-    g.gain.exponentialRampToValueAtTime(0.001, now + decay);
-
-    osc.connect(g);
-    g.connect(mainGain);
-    osc.start();
-    osc.stop(now + decay);
-}
-
-function startSequencer() {
-    const interval = (60 / bpm) / 2 * 1000;
-    setInterval(() => {
-        const now = audioCtx.currentTime;
-        
-        // Movement I: The Bass Drop (Kick & Sub)
-        if (step % 4 === 0) {
-            createSynth(55, 'sine', 0.8, 0.5); // Sub Bass A1
-            gsap.to(singularity.scale, { x: 1.3, y: 1.3, z: 1.3, duration: 0.1, yoyo: true, repeat: 1 });
-        }
-
-        // Movement II: The G-Funk Portamento (Lead)
-        if (step % 8 === 2 || step % 8 === 6) {
-            const notes = [440, 493.88, 523.25, 587.33]; // A Minor
-            createSynth(notes[Math.floor(Math.random() * notes.length)], 'triangle', 0.1, 0.8);
-        }
-
-        // Movement III: Ethereal Atmosphere (Hats/Perc)
-        if (step % 2 === 1) {
-            const noise = audioCtx.createOscillator(); // Simulated noise
-            noise.type = 'triangle';
-            noise.frequency.setValueAtTime(8000, now);
-            const ng = audioCtx.createGain();
-            ng.gain.setValueAtTime(0.02, now);
-            ng.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-            noise.connect(ng);
-            ng.connect(mainGain);
-            noise.start(); noise.stop(now + 0.05);
-        }
-
-        step++;
-    }, interval);
-}
-
-// 3. CORE SCENE ORCHESTRATION
-function initScene() {
+// ─── INIT ──────────────────────────────────────────────────────────────────────
+function init() {
+    // Scene
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 50;
+    scene.background = new THREE.Color(0x000004);
+    scene.fog = new THREE.FogExp2(0x000004, 0.00025);
 
+    // Camera
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5000);
+    camera.position.set(0, 50, 150);
+
+    // Renderer
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('experience-container').appendChild(renderer.domElement);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    experience.appendChild(renderer.domElement);
 
-    const geometry = new THREE.IcosahedronGeometry(15, 64);
-    const material = new THREE.ShaderMaterial({
-        uniforms: { uTime: { value: 0 }, uAudio: { value: 0 } },
-        vertexShader: _SINGULARITY_VERT,
-        fragmentShader: _SINGULARITY_FRAG,
+    // Post-processing — Unreal Bloom for god-ray/singularity glow
+    composer = new EffectComposer(renderer);
+    const renderPass = new RenderPass(scene, camera);
+    composer.addPass(renderPass);
+
+    const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        2.1,    // strength
+        0.4,    // radius
+        0.85    // threshold
+    );
+    composer.addPass(bloomPass);
+
+    // ─── Core Singularity Orb ──────────────────────────────────────────────────
+    const coreGeo = new THREE.IcosahedronGeometry(18, 5);
+    const coreMat = new THREE.MeshBasicMaterial({
+        color: 0x00ffff,
         wireframe: true,
-        transparent: true
+        transparent: true,
+        opacity: 0.4
     });
+    coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    scene.add(coreMesh);
 
-    singularity = new THREE.Mesh(geometry, material);
-    scene.add(singularity);
+    // ─── Particle Swarm — Audio Reactive ───────────────────────────────────────
+    const particleCount = 18000;
+    const posArray = new Float32Array(particleCount * 3);
+    const colorArray = new Float32Array(particleCount * 3);
 
-    const pGeo = new THREE.BufferGeometry();
-    const pPos = new Float32Array(5000 * 3);
-    for (let i = 0; i < 15000; i++) pPos[i] = (Math.random() - 0.5) * 250;
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-    particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x00f2ff, size: 0.15 }));
-    scene.add(particles);
+    for (let i = 0; i < particleCount * 3; i += 3) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const r = 120 + Math.random() * 80;
 
-    clock = new THREE.Clock();
-    animate();
-}
+        posArray[i]     = r * Math.sin(phi) * Math.cos(theta);
+        posArray[i + 1] = r * Math.sin(phi) * Math.sin(theta);
+        posArray[i + 2] = r * Math.cos(phi);
 
-function animate() {
-    requestAnimationFrame(animate);
-    const time = clock.getElapsedTime();
-    let audioForce = 0.1;
-
-    if (analyser) {
-        analyser.getByteFrequencyData(dataArray);
-        audioForce = dataArray.reduce((a, b) => a + b) / dataArray.length / 80;
-        document.getElementById('visualizer-bar').style.width = `${audioForce * 150}%`;
+        colorArray[i]     = Math.random() * 0.5 + 0.5; // cyan-magenta gradient
+        colorArray[i + 1] = 0.2 + Math.random() * 0.8;
+        colorArray[i + 2] = 1;
     }
 
-    singularity.material.uniforms.uTime.value = time;
-    singularity.material.uniforms.uAudio.value = audioForce;
-    singularity.rotation.y += 0.004 + (audioForce * 0.02);
-    particles.rotation.y -= 0.0005;
-    
-    renderer.render(scene, camera);
+    const particleGeo = new THREE.BufferGeometry();
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particleGeo.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+    const particleMat = new THREE.PointsMaterial({
+        size: 0.6,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending
+    });
+
+    particles = new THREE.Points(particleGeo, particleMat);
+    scene.add(particles);
+
+    // ─── Mouse Parallax & Events ───────────────────────────────────────────────
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('resize', onResize);
+
+    // Start ascension on button
+    initBtn.addEventListener('click', startAscension);
+
+    // Fake loading for drama
+    simulateLoading();
 }
 
-// 4. THE EXECUTION PROTOCOL: ACTIVATION
-document.getElementById('init-core-btn').onclick = () => {
-    gsap.to("#load-progress", { width: "100%", duration: 2, ease: "power4.inOut", onComplete: () => {
-        gsap.to("#boot-screen", { opacity: 0, duration: 1, onComplete: () => {
-            document.getElementById('boot-screen').style.display = 'none';
-            document.getElementById('hud-overlay').style.display = 'block';
-            initQuantumAudio();
-            generateVoidLogs();
-            updateChrono();
-        }});
-    }});
-};
+// ─── Fake Loading Animation ────────────────────────────────────────────────────
+function simulateLoading() {
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 12;
+        if (progress > 100) {
+            progress = 100;
+            clearInterval(interval);
+            initBtn.style.opacity = 1;
+            initBtn.disabled = false;
+        }
+        loadProgress.style.width = progress + '%';
+    }, 80);
+}
 
-function generateVoidLogs() {
-    const logs = ["RETRIVING_VOID_ARCHAEOLOGY", "SOUNDFORGE_LEGION_SYNC", "AXIOMATIC_GENESIS_v2", "QUANTUM_FOAM_STABLE"];
+// ─── ASCENSION SEQUENCE ────────────────────────────────────────────────────────
+function startAscension() {
+    bootScreen.classList.add('hidden');
+
+    // Enable HUD
+    setTimeout(() => {
+        hudOverlay.style.display = 'block';
+        hudOverlay.classList.add('active');
+        startChronoClock();
+        startLogStreamer();
+        enableAudio(); // try to get mic or fallback to oscillator
+    }, 2200);
+
+    ascensionPhase = 1;
+    gsap.to(camera.position, { z: 40, duration: 12, ease: "power4.inOut" });
+    gsap.to(particles.rotation, { y: Math.PI * 4, duration: 60, ease: "none", repeat: -1 });
+}
+
+// ─── Chrono Clock (fake UTC sync) ──────────────────────────────────────────────
+function startChronoClock() {
     setInterval(() => {
-        const list = document.getElementById('void-logs');
+        const now = new Date();
+        const h = now.getUTCHours().toString().padStart(2, '0');
+        const m = now.getUTCMinutes().toString().padStart(2, '0');
+        const s = now.getUTCSeconds().toString().padStart(2, '0');
+        const ms = now.getUTCMilliseconds().toString().padStart(3, '0');
+        chronoClock.textContent = `${h}:${m}:${s}.${ms} GMT+00:00:00`;
+    }, 47);
+}
+
+// ─── Void Log Streamer ─────────────────────────────────────────────────────────
+function startLogStreamer() {
+    let idx = 0;
+    const interval = setInterval(() => {
+        if (idx >= logMessages.length) {
+            clearInterval(interval);
+            return;
+        }
         const entry = document.createElement('div');
         entry.className = 'log-entry';
-        entry.innerText = `> ${logs[Math.floor(Math.random() * logs.length)]}`;
-        list.prepend(entry);
-        if (list.children.length > 6) list.lastChild.remove();
-    }, 3000);
+        entry.textContent = logMessages[idx];
+        voidLogs.appendChild(entry);
+        voidLogs.scrollTop = voidLogs.scrollHeight;
+        idx++;
+    }, 3200 + Math.random() * 1800);
 }
 
-function updateChrono() {
-    setInterval(() => {
-        const d = new Date();
-        document.getElementById('chrono-clock').innerText = d.toTimeString().split(' ') + ':' + Math.floor(Math.random()*99);
-    }, 100);
+// ─── Audio (Mic or Oscillator fallback) ───────────────────────────────────────
+async function enableAudio() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const source = audioCtx.createMediaStreamSource(stream);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 512;
+        source.connect(analyser);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        audioEnabled = true;
+    } catch (e) {
+        // Fallback oscillator for demo
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(963, audioCtx.currentTime); // solfeggio
+        osc.connect(audioCtx.destination);
+        osc.start();
+        // Fake data for reactivity
+        dataArray = new Uint8Array(128).fill(80);
+        setInterval(() => {
+            for (let i = 0; i < dataArray.length; i++) {
+                dataArray[i] = 60 + Math.sin(time * 3 + i * 0.4) * 60;
+            }
+        }, 50);
+        audioEnabled = true;
+    }
 }
 
-initScene();
+// ─── Animation Loop ────────────────────────────────────────────────────────────
+function animate() {
+    requestAnimationFrame(animate);
+    time += 0.016;
+
+    if (ascensionPhase >= 1) {
+        // Rotate core
+        coreMesh.rotation.x += 0.002;
+        coreMesh.rotation.y += 0.0035;
+
+        // Particle swirl + audio reactivity
+        const positions = particles.geometry.attributes.position.array;
+        if (analyser && audioEnabled) analyser.getByteFrequencyData(dataArray);
+
+        for (let i = 0; i < positions.length; i += 3) {
+            const ix = i / 3;
+            const freq = audioEnabled && analyser ? dataArray[ix % dataArray.length] / 255 : 0.5;
+            const pulse = Math.sin(time * 4 + ix * 0.01) * 12 * freq;
+
+            positions[i + 1] += Math.sin(time + ix) * 0.3 + pulse * 0.08;
+            positions[i]   += Math.cos(time * 1.2 + ix * 0.4) * 0.2;
+            positions[i + 2] += Math.sin(time * 0.7 + ix * 0.6) * 0.15;
+        }
+        particles.geometry.attributes.position.needsUpdate = true;
+    }
+
+    // Camera subtle orbit
+    camera.position.x = Math.sin(time * 0.2) * 30;
+    camera.position.z = 80 + Math.cos(time * 0.15) * 40;
+    camera.lookAt(0, 0, 0);
+
+    composer.render();
+}
+
+// ─── Mouse Parallax ────────────────────────────────────────────────────────────
+let mouseX = 0, mouseY = 0;
+function onMouseMove(e) {
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+
+    gsap.to(camera.rotation, {
+        y: mouseX * 0.12,
+        x: mouseY * 0.08,
+        duration: 2,
+        ease: "power2.out"
+    });
+}
+
+// ─── Resize ────────────────────────────────────────────────────────────────────
+function onResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
+}
+
+// ─── GO ────────────────────────────────────────────────────────────────────────
+init();
+animate();
+
+// For mobile/touch fallback
+document.addEventListener('touchmove', e => {
+    if (e.touches.length > 0) {
+        mouseX = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
+    }
+});
