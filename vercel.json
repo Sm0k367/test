@@ -2,7 +2,8 @@
   "version": 2,
   "public": true,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/$1" }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/(.*)", "destination": "/public/$1" }
   ],
   "headers": [
     {
