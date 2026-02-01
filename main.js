@@ -1,5 +1,6 @@
-console.log("main.js vDEBUG loaded");
+console.log("main.js ambient update loaded");
 
+// DOM elements (unchanged)
 const bootScreen     = document.getElementById('boot-screen');
 const initBtn        = document.getElementById('init-core-btn');
 const loadProgress   = document.getElementById('load-progress');
@@ -27,131 +28,23 @@ const logMessages = [
     "[FINAL] Reality terminated. Ascension complete."
 ];
 
-function init() {
-    console.log("init() running");
-
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x001122); // TEMP bright blue-gray to TEST visibility
-
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(0, 20, 80); // closer
-
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.domElement.style.position = 'absolute';
-    renderer.domElement.style.top = '0';
-    renderer.domElement.style.left = '0';
-    renderer.domElement.style.width = '100%';
-    renderer.domElement.style.height = '100%';
-    renderer.domElement.style.zIndex = '1';
-    experience.appendChild(renderer.domElement);
-    console.log("Canvas appended – check if visible in DOM");
-
-    // Composer
-    try {
-        composer = new THREE.EffectComposer(renderer);
-        composer.addPass(new THREE.RenderPass(scene, camera));
-        const bloom = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.8, 0.4, 0.85);
-        composer.addPass(bloom);
-        console.log("Bloom OK");
-    } catch (e) {
-        console.warn("Bloom failed – using direct render", e);
-        composer = { render: () => renderer.render(scene, camera) };
-    }
-
-    // Bright orb
-    const coreGeo = new THREE.IcosahedronGeometry(35, 6);
-    const coreMat = new THREE.MeshBasicMaterial({
-        color: 0xffffff, // white for max visibility test
-        wireframe: true,
-        transparent: true,
-        opacity: 1.0,
-        blending: THREE.AdditiveBlending
-    });
-    coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    scene.add(coreMesh);
-
-    // Bright particles
-    const particleCount = 12000;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-
-    for (let i = 0; i < particleCount * 3; i += 3) {
-        const r = 50 + Math.random() * 150;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-
-        positions[i]     = r * Math.sin(phi) * Math.cos(theta);
-        positions[i + 1] = r * Math.sin(phi) * Math.sin(theta);
-        positions[i + 2] = r * Math.cos(phi);
-
-        colors[i]     = 1;
-        colors[i + 1] = 0.8;
-        colors[i + 2] = 0.3; // bright yellow-white
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-        size: 4.5,
-        vertexColors: true,
-        transparent: true,
-        opacity: 1.0,
-        blending: THREE.AdditiveBlending
-    });
-
-    particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('resize', onResize);
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
-
-    simulateLoading();
-}
-
-function simulateLoading() {
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += Math.random() * 15;
-        if (progress >= 100) {
-            clearInterval(interval);
-            initBtn.disabled = false;
-            initBtn.style.opacity = 1;
-            console.log("Button ready");
-        }
-        loadProgress.style.width = `${Math.min(progress, 100)}%`;
-    }, 40);
-}
+// ... keep init(), simulateLoading(), startChronoClock(), startLogStreamer(), animate(), onMouseMove, onTouchMove, onResize the same as your current version ...
 
 async function startAscension() {
     console.log("ASCENSION CLICKED");
     bootScreen.classList.add('hidden');
 
-    // Force audio resume + fallback tone immediately
+    // Force audio resume immediately
     try {
         if (!audioCtx) {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
         if (audioCtx.state === 'suspended') {
             await audioCtx.resume();
-            console.log("AudioContext resumed on click");
+            console.log("AudioContext resumed on ascension");
         }
-
-        const osc = audioCtx.createOscillator();
-        osc.type = 'sine';
-        osc.frequency.value = 440;
-        const gain = audioCtx.createGain();
-        gain.gain.value = 0.9; // very audible
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        console.log("TEST TONE 440Hz PLAYING NOW – should hear loud hum");
     } catch (e) {
-        console.error("Audio init failed:", e);
+        console.error("Audio resume failed:", e);
     }
 
     setTimeout(() => {
@@ -159,76 +52,119 @@ async function startAscension() {
         hudOverlay.classList.add('active');
         startChronoClock();
         startLogStreamer();
-        enableAudio(); // try mic after tone
+        enableAudio();
     }, 1500);
 
     ascensionPhase = 1;
     gsap.to(camera.position, { z: 60, y: 15, duration: 10, ease: "power3.out" });
 }
 
-function enableAudio() {
-    console.log("Trying mic");
-    navigator.mediaDevices.getUserMedia({ audio: true })
-        .then(stream => {
-            const source = audioCtx.createMediaStreamSource(stream);
-            analyser = audioCtx.createAnalyser();
-            analyser.fftSize = 512;
-            source.connect(analyser);
-            dataArray = new Uint8Array(analyser.frequencyBinCount);
-            audioEnabled = true;
-            console.log("MIC ACTIVE");
-            // add bins
-            for (let i = 0; i < 32; i++) {
-                const bin = document.createElement('div');
-                bin.className = 'bin';
-                freqBins.appendChild(bin);
-            }
-        })
-        .catch(e => console.log("Mic denied:", e));
-}
+async function enableAudio() {
+    console.log("enableAudio called");
 
-// Animate
-function animate() {
-    requestAnimationFrame(animate);
-    time += 0.016;
-
-    if (ascensionPhase >= 1) {
-        if (coreMesh) {
-            coreMesh.rotation.x += 0.004;
-            coreMesh.rotation.y += 0.006;
-        }
-        if (particles) {
-            const pos = particles.geometry.attributes.position.array;
-            for (let i = 0; i < pos.length; i += 3) {
-                pos[i + 1] += Math.sin(time + i * 0.001) * 0.5;
-            }
-            particles.geometry.attributes.position.needsUpdate = true;
-        }
+    if (audioCtx && audioCtx.state === 'suspended') {
+        await audioCtx.resume();
     }
 
-    if (composer) composer.render();
-}
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const source = audioCtx.createMediaStreamSource(stream);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 512;
+        source.connect(analyser);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        audioEnabled = true;
+        console.log("MIC ACTIVE – visualizer reacting");
+        // Add bins
+        for (let i = 0; i < 32; i++) {
+            const bin = document.createElement('div');
+            bin.className = 'bin';
+            freqBins.appendChild(bin);
+        }
+    } catch (e) {
+        console.log("Mic denied or failed:", e.message || e);
+        console.log("Starting ambient fallback drone");
 
-function onMouseMove(e) {
-    const x = (e.clientX / window.innerWidth) * 2 - 1;
-    const y = -(e.clientY / window.innerHeight) * 2 + 1;
-    gsap.to(camera.rotation, { y: x * 0.15, x: y * 0.1, duration: 2 });
-}
+        // Ambient drone fallback – layered for spacey feel
+        const masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.25; // low background volume
+        masterGain.connect(audioCtx.destination);
 
-function onTouchMove(e) {
-    if (e.touches.length > 0) {
-        const x = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
-        const y = -(e.touches[0].clientY / window.innerHeight) * 2 + 1;
-        gsap.to(camera.rotation, { y: x * 0.15, x: y * 0.1, duration: 2 });
+        // Low drone (sub-bass)
+        const lowOsc = audioCtx.createOscillator();
+        lowOsc.type = 'sine';
+        lowOsc.frequency.value = 40; // deep
+        const lowGain = audioCtx.createGain();
+        lowGain.gain.value = 0.6;
+        lowOsc.connect(lowGain);
+        lowGain.connect(masterGain);
+
+        // Mid pad with slight detune
+        const midOsc1 = audioCtx.createOscillator();
+        midOsc1.type = 'sawtooth';
+        midOsc1.frequency.value = 110;
+        const midOsc2 = audioCtx.createOscillator();
+        midOsc2.type = 'sawtooth';
+        midOsc2.frequency.value = 110.5; // slight detune for richness
+        const midGain = audioCtx.createGain();
+        midGain.gain.value = 0.3;
+        midOsc1.connect(midGain);
+        midOsc2.connect(midGain);
+        midGain.connect(masterGain);
+
+        // High shimmer
+        const highOsc = audioCtx.createOscillator();
+        highOsc.type = 'triangle';
+        highOsc.frequency.value = 440 * 2; // higher harmonic
+        const highGain = audioCtx.createGain();
+        highGain.gain.value = 0.15;
+        highOsc.connect(highGain);
+        highGain.connect(masterGain);
+
+        // Low-pass filter for warmth
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 800;
+        masterGain.connect(filter);
+        filter.connect(audioCtx.destination); // re-connect
+
+        // Simple reverb for space
+        const convolver = audioCtx.createConvolver();
+        // Simple impulse: noise burst for free reverb approximation
+        const impulse = audioCtx.createBuffer(2, audioCtx.sampleRate * 1.5, audioCtx.sampleRate);
+        for (let channel = 0; channel < impulse.numberOfChannels; channel++) {
+            const data = impulse.getChannelData(channel);
+            for (let i = 0; i < data.length; i++) {
+                data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 3);
+            }
+        }
+        convolver.buffer = impulse;
+        const reverbGain = audioCtx.createGain();
+        reverbGain.gain.value = 0.4;
+        masterGain.connect(convolver);
+        convolver.connect(reverbGain);
+        reverbGain.connect(audioCtx.destination);
+
+        // Start all
+        lowOsc.start();
+        midOsc1.start();
+        midOsc2.start();
+        highOsc.start();
+
+        console.log("Ambient drone fallback active – spacey layered sound");
+
+        // Fake data for reactivity
+        dataArray = new Uint8Array(128);
+        setInterval(() => {
+            for (let i = 0; i < dataArray.length; i++) {
+                dataArray[i] = 80 + Math.sin(time * 3 + i * 0.4) * 80;
+            }
+        }, 50);
+        audioEnabled = true;
     }
 }
 
-function onResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-}
+// Keep the rest of your code (init call, animate, event listeners) unchanged
 
 init();
 animate();
