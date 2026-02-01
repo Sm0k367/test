@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TSL | THE ABSOLUTE ALGORITHM | vΩ.∞</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Three.js core + postprocessing helpers -->
+
+    <!-- Three.js core (non-module for GH Pages reliability) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- Post-processing (non-module versions where possible) -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/EffectComposer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/RenderPass.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
     <div id="boot-screen">
@@ -23,7 +26,7 @@
         <div class="power-level">
             <div id="load-progress"></div>
         </div>
-        <button id="init-core-btn">INITIATE ASCENSION</button>
+        <button id="init-core-btn" disabled>INITIATE ASCENSION</button>
     </div>
 
     <div id="hud-overlay" style="display: none;">
@@ -51,6 +54,22 @@
 
     <div id="experience-container"></div>
 
-    <script type="module" src="main.js"></script>
+    <!-- Main logic – now non-module for better compatibility -->
+    <script src="main.js"></script>
+
+    <!-- Quick debug: logs to console when page ready and button clicked -->
+    <script>
+        console.log("index.html loaded successfully");
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('init-core-btn');
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    console.log("INITIATE ASCENSION clicked!");
+                });
+            } else {
+                console.error("Button not found in DOM");
+            }
+        });
+    </script>
 </body>
 </html>
