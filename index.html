@@ -6,14 +6,20 @@
     <title>TSL | THE ABSOLUTE ALGORITHM | vΩ.∞</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- Three.js core (non-module for GH Pages reliability) -->
+    <!-- Core Three.js (global) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <!-- Post-processing (non-module versions where possible) -->
+
+    <!-- Required shaders first (must load before passes that use them) -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/ShaderPass.js"></script>
+
+    <!-- Post-processing passes (now in dependency order) -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/EffectComposer.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/RenderPass.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
     <div id="boot-screen">
@@ -54,20 +60,17 @@
 
     <div id="experience-container"></div>
 
-    <!-- Main logic – now non-module for better compatibility -->
     <script src="main.js"></script>
 
-    <!-- Quick debug: logs to console when page ready and button clicked -->
+    <!-- Debug logs -->
     <script>
-        console.log("index.html loaded successfully");
+        console.log("index.html fully loaded – scripts should be ready");
         document.addEventListener('DOMContentLoaded', () => {
             const btn = document.getElementById('init-core-btn');
             if (btn) {
                 btn.addEventListener('click', () => {
-                    console.log("INITIATE ASCENSION clicked!");
+                    console.log("Button clicked – starting ascension if main.js ran");
                 });
-            } else {
-                console.error("Button not found in DOM");
             }
         });
     </script>
