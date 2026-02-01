@@ -9,23 +9,26 @@
     <!-- Core Three.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 
-    <!-- Base Pass class (fixes 'Class extends value undefined') -->
+    <!-- Base Pass class -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/Pass.js"></script>
 
-    <!-- CopyShader (required by ShaderPass) -->
+    <!-- CopyShader -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/CopyShader.js"></script>
 
-    <!-- ShaderPass (fixes 'relies on THREE.ShaderPass' and 'not a constructor') -->
+    <!-- ShaderPass -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/ShaderPass.js"></script>
 
-    <!-- EffectComposer (now all dependencies are loaded) -->
+    <!-- LuminosityHighPassShader – THIS IS THE MISSING ONE FOR BLOOM -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+
+    <!-- EffectComposer -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/EffectComposer.js"></script>
 
     <!-- Other passes -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/RenderPass.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
 
-    <!-- GSAP for animations -->
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
@@ -71,7 +74,7 @@
 
     <!-- Debug script -->
     <script>
-        console.log("index.html loaded – all scripts should be ready");
+        console.log("index.html loaded – all post-processing dependencies should be ready");
         document.addEventListener('DOMContentLoaded', () => {
             const btn = document.getElementById('init-core-btn');
             if (btn) {
