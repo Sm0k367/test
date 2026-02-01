@@ -21,7 +21,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor: none;
+    /* Removed cursor: none; to restore default mouse icon – custom trail can be added in JS later */
 }
 
 body, html {
