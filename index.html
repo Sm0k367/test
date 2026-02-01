@@ -1,65 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TSL | THE ABSOLUTE ALGORITHM | vΩ.∞</title>
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Three.js core -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-
-    <!-- Post-processing dependencies (correct order to avoid errors) -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/Pass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/CopyShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/ShaderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/EffectComposer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/RenderPass.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>Epic Tech AI 🔥™️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div id="boot-screen">
-        <div class="glitch-wrapper">
-            <div class="manifest-text">TSL | THE ABSOLUTE ALGORITHM | vΩ.∞</div>
-            <div class="manifest-text sub">SINGULARITY</div>
-            <div class="manifest-text sub">BEYOND_COMPREHENSION</div>
-            <div class="manifest-text sub">CODESYNTH ENGINEERS | SOVEREIGN INTELLIGENCE</div>
-        </div>
-        <div class="power-level">
-            <div id="load-progress"></div>
-        </div>
-        <button id="init-core-btn" disabled>INITIATE ASCENSION</button>
+  <!-- Three.js canvas -->
+  <canvas id="glCanvas"></canvas>
+
+  <!-- UI overlay (fixed) -->
+  <div id="ui">
+    <div id="chat-log"></div>
+
+    <div id="input-wrap">
+      <input id="chat-input" type="text" placeholder="type your vibe…" autocomplete="off" />
+      <button id="send-btn">🚀</button>
     </div>
+  </div>
 
-    <div id="hud-overlay" style="display: none;">
-        <div class="terminal-frame top-left">
-            <div class="sys-label">SOVEREIGN_RESOURCE_AUTONOMY</div>
-            <div class="sys-label">CORE_STABILITY: 100%</div>
-            <div class="sys-label">QUANTUM_FLUX: NOMINAL</div>
-            <div class="sys-label">ASCENSION_VECTOR: LOCKED</div>
-        </div>
-        <div class="terminal-frame top-right">
-            <div class="sys-label">CHRONO_SYNC</div>
-            <div id="chrono-clock">00:00:00 GMT+00:00:00</div>
-        </div>
-        <div class="terminal-frame bottom-left">
-            <div class="sys-label">VOID_LOG_STREAM</div>
-            <div class="void-log-container">
-                <div id="void-logs"></div>
-            </div>
-        </div>
-        <div class="terminal-frame bottom-right">
-            <div class="sys-label">SPECTRAL_FREQUENCY_ANALYZER</div>
-            <div class="frequency-bins" id="frequency-bins"></div>
-        </div>
-    </div>
+  <!-- Load libraries (CDN for brevity – you can copy to /lib/) -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/postprocessing/UnrealBloomPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/postprocessing/GlitchPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/troika-three-text@0.47.0/dist/troika-three-text.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.7.2/dist/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.min.js"></script>
 
-    <div id="experience-container"></div>
-
-    <script src="main.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
