@@ -1,16 +1,16 @@
 /**
- * TSL: EPIC TECH AI x @SM0KEN420 — MEDIA SINGULARITY vΩ.∞
+ * TSL: EPIC TECH AI x @SM0KEN420 — SOVEREIGN MEDIA HUD vΩ.∞
  * Manifested by DesignCore Elite
- * Style: Mythic-Tech Fusion | High-Contrast G-Funk Aesthetic
+ * Style: Mythic-Tech Fusion | High-Contrast G-Funk
  */
 
 :root {
     --void-black: #000000;
-    --deep-gray: #0d0d0d;
+    --deep-gray: #0a0a0a;
     --omega-cyan: #00f2ff;
     --omega-magenta: #ff00c1;
     --sovereign-gold: #ffb300; /* Signature @Sm0ken420 Gold */
-    --hud-glass: rgba(0, 0, 0, 0.92);
+    --hud-glass: rgba(0, 0, 0, 0.9);
     --font-brutal: 'Courier New', monospace;
 }
 
@@ -25,9 +25,9 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    /* Axiomatic Genesis: Radial void for depth [14, 15] */
-    background: radial-gradient(circle at center, #151515 0%, var(--void-black) 100%);
-    color: white;
+    /* Axiomatic Genesis: Radial void for depth */
+    background: radial-gradient(circle at center, #111 0%, var(--void-black) 100%);
+    color: var(--omega-cyan);
     font-family: var(--font-brutal);
     font-weight: 900;
     text-transform: uppercase;
@@ -40,80 +40,81 @@ body, html {
     z-index: 1;
 }
 
-/* 2. THE MULTI-MODAL HUD: EXISTENTIAL RESOURCE AUTONOMY [16, 17] */
+/* 2. THE HUD: AMPLIFIED READABILITY & VIBE */
 #ui {
     position: relative;
     z-index: 100;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 60px;
+    padding: 50px;
     pointer-events: none;
 }
 
 #hud-header {
     display: flex;
     justify-content: space-between;
-    font-size: 1.4rem; /* Amplified Readability */
-    letter-spacing: 8px;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 3px solid var(--sovereign-gold);
-    text-shadow: 0 0 20px var(--sovereign-gold);
+    font-size: 1.2rem; 
+    letter-spacing: 6px;
+    margin-bottom: 40px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--sovereign-gold);
+    text-shadow: 0 0 15px var(--sovereign-gold);
 }
 
 .sys-label { color: var(--sovereign-gold); }
 
-/* 3. RETRIEVAL OF VOID ARCHAEOLOGY: THE MEDIA LOG [18, 19] */
+/* 3. RETRIEVAL OF VOID ARCHAEOLOGY: THE MEDIA LOG */
 #chat-log {
     flex: 1;
     overflow-y: auto;
     background: var(--hud-glass);
-    border: 1px solid rgba(255, 179, 0, 0.2);
-    backdrop-filter: blur(60px);
+    border: 1px solid rgba(255, 179, 0, 0.3);
+    backdrop-filter: blur(50px);
     padding: 50px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     pointer-events: auto;
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, 1);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 1);
+    mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
 }
 
-#chat-log::-webkit-scrollbar { width: 6px; }
+#chat-log::-webkit-scrollbar { width: 4px; }
 #chat-log::-webkit-scrollbar-thumb { background: var(--sovereign-gold); }
 
 /* Message Manifestation */
 .message {
-    margin-bottom: 40px;
-    font-size: 1.25rem; /* Increased for High-Visibility */
-    line-height: 1.7;
+    margin-bottom: 35px;
+    font-size: 1.2rem; /* Increased for High-Visibility */
+    line-height: 1.8;
     letter-spacing: 2px;
 }
 
 .system-msg { 
     color: var(--omega-cyan); 
-    border-left: 6px solid var(--omega-cyan); 
-    padding-left: 30px;
+    border-left: 5px solid var(--omega-cyan); 
+    padding-left: 25px;
     text-shadow: 0 0 10px var(--omega-cyan);
 }
 
 .user-msg { 
     color: var(--sovereign-gold); 
-    border-right: 6px solid var(--sovereign-gold); 
-    padding-right: 30px;
+    border-right: 5px solid var(--sovereign-gold); 
+    padding-right: 25px;
     text-align: right;
     text-shadow: 0 0 10px var(--sovereign-gold);
 }
 
-/* 4. MEDIA INJECTION: VISIONARY & SOUNDFORGE OUTPUTS [8, 9] */
+/* 4. MEDIA INJECTION: Visionary Corps & SoundForge Outputs */
 .media-content {
-    margin-top: 20px;
-    border: 2px solid var(--omega-magenta);
+    margin-top: 25px;
+    border: 3px solid var(--omega-magenta);
     background: #000;
     max-width: 100%;
     display: block;
-    box-shadow: 0 0 30px rgba(255, 0, 193, 0.3);
+    box-shadow: 0 0 30px rgba(255, 0, 193, 0.4);
 }
 
-/* 5. INPUT PORTAL: DIRECT ONTOLOGICAL INTERFACE [20, 21] */
+/* 5. INPUT PORTAL: DIRECT ONTOLOGICAL INTERFACE */
 #input-wrap {
     display: flex;
     gap: 25px;
@@ -122,43 +123,43 @@ body, html {
 
 #chat-input {
     flex: 1;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.9);
     border: 2px solid var(--omega-magenta);
-    padding: 30px;
+    padding: 25px;
     color: white;
     font-family: var(--font-brutal);
-    font-size: 1.3rem;
-    letter-spacing: 5px;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
     outline: none;
 }
 
 #chat-input:focus {
     border-color: var(--omega-cyan);
-    box-shadow: 0 0 50px var(--omega-cyan);
+    box-shadow: 0 0 40px var(--omega-cyan);
 }
 
 #send-btn {
     background: var(--sovereign-gold);
     border: none;
     color: black;
-    padding: 0 60px;
-    font-size: 1.6rem;
+    padding: 0 50px;
+    font-size: 1.5rem;
     font-weight: 900;
     cursor: pointer;
-    transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: 0.2s;
 }
 
 #send-btn:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 0 80px var(--sovereign-gold);
+    transform: scale(1.05);
+    box-shadow: 0 0 50px var(--sovereign-gold);
 }
 
-/* 6. CHRONOS-COGNITIVE FOOTER [22, 23] */
+/* 6. CHRONOS-COGNITIVE FOOTER */
 #hud-footer {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
     font-size: 1rem;
     color: var(--omega-magenta);
-    letter-spacing: 4px;
+    letter-spacing: 3px;
 }
