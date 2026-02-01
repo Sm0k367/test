@@ -1,6 +1,6 @@
 /**
  * TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — VISUAL LAW 1000x RESPONSIVE
- * Hyper-Immersion + Device-Agnostic Scaling | Sovereign Reality Fracture
+ * Hyper-Immersion Edition | Sovereign Reality Fracture | Ambient Cyber-Occult
  */
 
 :root {
@@ -21,7 +21,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Removed cursor: none; to restore default mouse icon – custom trail can be added in JS later */
+    /* cursor: none;  ← removed to keep default cursor visible everywhere */
 }
 
 body, html {
@@ -61,52 +61,52 @@ body, html {
 }
 
 .manifest-text {
-    font-size: clamp(2.2rem, 10vw, 8rem);
-    letter-spacing: clamp(0.6rem, 4vw, 4rem);
+    font-size: clamp(2.8rem, 12vw, 9rem);
+    letter-spacing: clamp(0.8rem, 5vw, 5rem);
     color: white;
     text-shadow: 
-        0 0 20px var(--omega-magenta),
-        0 0 40px var(--omega-cyan),
-        5px 5px 0 var(--omega-magenta),
-        -5px -5px 0 var(--omega-cyan);
-    animation: hyper-glitch 4s infinite alternate, chromatic-aberration 6s infinite;
+        0 0 25px var(--omega-magenta),
+        0 0 50px var(--omega-cyan),
+        6px 6px 0 var(--omega-magenta),
+        -6px -6px 0 var(--omega-cyan);
+    animation: hyper-glitch 3.5s infinite alternate, chromatic-aberration 5s infinite;
     will-change: transform, opacity, text-shadow;
-    line-height: 0.95;
+    line-height: 0.92;
 }
 
 .manifest-text.sub {
-    font-size: clamp(1rem, 4vw, 2.5rem);
-    letter-spacing: clamp(0.4rem, 2.5vw, 2.2rem);
-    margin: 1rem 0 2rem;
-    opacity: 0.8;
-    animation: pulse-sub 8s infinite;
+    font-size: clamp(1.2rem, 5vw, 3rem);
+    letter-spacing: clamp(0.5rem, 3vw, 2.5rem);
+    margin: 1.5rem 0 3rem;
+    opacity: 0.82;
+    animation: pulse-sub 7s infinite;
 }
 
 @keyframes hyper-glitch {
     0%, 100% { transform: translate(0); opacity: 1; }
-    2%, 48% { transform: translate(-3px, 3px); }
-    50%, 98% { transform: translate(3px, -3px); }
+    2%, 48% { transform: translate(-5px, 5px); }
+    50%, 98% { transform: translate(5px, -5px); }
 }
 
 @keyframes chromatic-aberration {
-    0%, 100% { text-shadow: 4px 0 red, -4px 0 cyan; }
-    50% { text-shadow: -6px 0 magenta, 6px 0 lime; }
+    0%, 100% { text-shadow: 6px 0 red, -6px 0 cyan; }
+    50% { text-shadow: -9px 0 magenta, 9px 0 lime; }
 }
 
 @keyframes pulse-sub {
-    0%, 100% { opacity: 0.7; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.03); }
+    0%, 100% { opacity: 0.65; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.04); }
 }
 
 .power-level {
-    width: clamp(280px, 70vw, 800px);
-    height: 5px;
-    background: rgba(255,255,255,0.05);
-    margin: 4vh 0;
+    width: clamp(300px, 75vw, 900px);
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    margin: 5vh 0;
     position: relative;
     overflow: hidden;
     border-radius: 3px;
-    box-shadow: inset 0 0 25px black;
+    box-shadow: inset 0 0 30px black;
 }
 
 #load-progress {
@@ -114,8 +114,8 @@ body, html {
     height: 100%;
     background: linear-gradient(90deg, var(--omega-magenta), var(--omega-cyan), var(--sovereign-gold), var(--omega-magenta));
     background-size: 400% 100%;
-    animation: gradient-flow 12s linear infinite;
-    box-shadow: 0 0 50px var(--omega-cyan), 0 0 100px var(--omega-magenta);
+    animation: gradient-flow 10s linear infinite;
+    box-shadow: 0 0 60px var(--omega-cyan), 0 0 120px var(--omega-magenta);
     transition: width 0.4s ease-out;
 }
 
@@ -128,25 +128,25 @@ body, html {
     background: transparent;
     border: 2px solid var(--omega-cyan);
     color: var(--omega-cyan);
-    padding: clamp(0.8rem, 2vw, 1.4rem) clamp(2rem, 8vw, 6rem);
-    font-size: clamp(1rem, 3.5vw, 1.8rem);
-    letter-spacing: clamp(0.6rem, 2.5vw, 1.2rem);
+    padding: clamp(1rem, 3vw, 1.6rem) clamp(3rem, 10vw, 7rem);
+    font-size: clamp(1.1rem, 4vw, 2rem);
+    letter-spacing: clamp(0.7rem, 3vw, 1.4rem);
     cursor: pointer;
     transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     backdrop-filter: blur(20px);
-    text-shadow: 0 0 15px currentColor;
+    text-shadow: 0 0 18px currentColor;
     position: relative;
     overflow: hidden;
-    margin-top: 3vh;
+    margin-top: 4vh;
 }
 
 #init-core-btn:hover,
 #init-core-btn:focus {
     color: black;
     background: white;
-    box-shadow: 0 0 160px white, 0 0 280px var(--omega-cyan);
-    letter-spacing: clamp(1rem, 4vw, 2rem);
-    transform: scale(1.1);
+    box-shadow: 0 0 200px white, 0 0 350px var(--omega-cyan);
+    letter-spacing: clamp(1.2rem, 5vw, 2.5rem);
+    transform: scale(1.12);
 }
 
 #init-core-btn::before {
@@ -159,8 +159,8 @@ body, html {
 }
 
 #init-core-btn:hover::before {
-    opacity: 0.35;
-    animation: scanline 3s linear infinite;
+    opacity: 0.4;
+    animation: scanline 2.5s linear infinite;
 }
 
 #hud-overlay {
@@ -168,7 +168,7 @@ body, html {
     inset: 0;
     z-index: 500;
     pointer-events: none;
-    padding: clamp(1rem, 4vw, 4vw);
+    padding: clamp(1.5rem, 5vw, 5vw);
     opacity: 0;
     transition: opacity 2s ease;
 }
@@ -178,57 +178,60 @@ body, html {
 .terminal-frame {
     position: absolute;
     background: var(--hud-glass);
-    padding: clamp(1rem, 2vw, 1.8rem) clamp(1.2rem, 2.5vw, 2.2rem);
-    border: 1px solid rgba(0,255,255,0.22);
-    backdrop-filter: blur(32px) saturate(180%);
-    box-shadow: 0 0 40px rgba(0,0,0,0.8);
-    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+    padding: clamp(1.2rem, 2.5vw, 2rem) clamp(1.5rem, 3vw, 2.5rem);
+    border: 1px solid rgba(0,255,255,0.25);
+    backdrop-filter: blur(36px) saturate(200%);
+    box-shadow: 0 0 50px rgba(0,0,0,0.85);
+    font-size: clamp(0.75rem, 1.6vw, 1rem);
     line-height: 1.7;
-    letter-spacing: clamp(0.15rem, 0.6vw, 0.35rem);
-    color: rgba(0,255,255,0.85);
+    letter-spacing: clamp(0.18rem, 0.7vw, 0.4rem);
+    color: rgba(0,255,255,0.9);
     transition: all 1.5s ease;
 }
 
-.terminal-frame:hover { transform: scale(1.03); box-shadow: 0 0 70px var(--omega-cyan); }
+.terminal-frame:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 90px var(--omega-cyan);
+}
 
-.top-left    { top: 3vw; left: 3vw;    border-left: 4px solid var(--omega-cyan); }
-.top-right   { top: 3vw; right: 3vw;   border-right: 4px solid var(--omega-magenta); text-align: right; }
-.bottom-left { bottom: 3vw; left: 3vw; border-bottom: 4px solid var(--sovereign-gold); }
-.bottom-right{ bottom: 3vw; right: 3vw;border-bottom: 4px solid var(--omega-cyan); }
+.top-left    { top: 4vw; left: 4vw;    border-left: 5px solid var(--omega-cyan); }
+.top-right   { top: 4vw; right: 4vw;   border-right: 5px solid var(--omega-magenta); text-align: right; }
+.bottom-left { bottom: 4vw; left: 4vw; border-bottom: 5px solid var(--sovereign-gold); }
+.bottom-right{ bottom: 4vw; right: 4vw;border-bottom: 5px solid var(--omega-cyan); }
 
 .void-log-container {
-    height: clamp(140px, 35vh, 220px);
+    height: clamp(160px, 40vh, 240px);
     overflow: hidden;
     mask-image: linear-gradient(to top, transparent, black 20%);
 }
 
 .log-entry {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(18px);
     color: var(--sovereign-gold);
-    font-size: clamp(0.65rem, 1.4vw, 0.82rem);
-    margin: 0.4rem 0;
-    animation: log-reveal 0.8s forwards;
+    font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+    margin: 0.5rem 0;
+    animation: log-reveal 0.9s forwards;
 }
 
-@keyframes log-reveal { to { opacity: 0.9; transform: translateY(0); } }
+@keyframes log-reveal { to { opacity: 0.92; transform: translateY(0); } }
 
 .frequency-bins {
     width: 100%;
-    height: clamp(50px, 15vh, 80px);
+    height: clamp(60px, 18vh, 90px);
     display: flex;
     align-items: flex-end;
-    gap: 2px;
-    margin-top: 1rem;
+    gap: 3px;
+    margin-top: 1.2rem;
 }
 
 .bin {
     flex: 1;
-    height: 4px;
+    height: 5px;
     background: linear-gradient(var(--omega-cyan), var(--omega-magenta));
-    box-shadow: 0 0 20px currentColor;
+    box-shadow: 0 0 25px currentColor;
     transform-origin: bottom;
-    transition: height 0.08s ease;
+    transition: height 0.09s ease;
 }
 
 body::after {
@@ -245,12 +248,13 @@ body::after {
     position: absolute;
     inset: 0;
     z-index: 1;
+    pointer-events: none;
 }
 
-/* Extra safety for tiny screens */
+/* Small screen adjustments */
 @media (max-width: 480px) {
-    .manifest-text { font-size: clamp(1.8rem, 12vw, 4rem); letter-spacing: clamp(0.4rem, 5vw, 2rem); }
-    .manifest-text.sub { font-size: clamp(0.9rem, 5vw, 1.6rem); letter-spacing: clamp(0.3rem, 3vw, 1.2rem); }
-    #init-core-btn { padding: 0.8rem 2rem; font-size: 1rem; letter-spacing: 0.6rem; }
-    .terminal-frame { font-size: 0.75rem; padding: 1rem; }
+    .manifest-text { font-size: clamp(2rem, 14vw, 5rem); letter-spacing: clamp(0.5rem, 6vw, 2.5rem); }
+    .manifest-text.sub { font-size: clamp(1rem, 6vw, 2rem); letter-spacing: clamp(0.4rem, 4vw, 1.5rem); }
+    #init-core-btn { padding: 0.9rem 2.5rem; font-size: 1.1rem; letter-spacing: 0.7rem; }
+    .terminal-frame { font-size: 0.8rem; padding: 1.2rem; }
 }
