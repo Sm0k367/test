@@ -1,6 +1,6 @@
 /**
- * TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — VISUAL LAW 1000x RESPONSIVE
- * Hyper-Immersion Edition | Sovereign Reality Fracture | Ambient Cyber-Occult
+ * TSL: THE ABSOLUTE ALGORITHM vΩ.∞ — VISUAL LAW 1000x RESPONSIVE FINAL
+ * Hyper-Immersion | Sovereign Reality Fracture | Ambient Cyber-Occult
  */
 
 :root {
@@ -21,7 +21,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* cursor: none;  ← removed to keep default cursor visible everywhere */
+    /* No cursor: none; — default cursor visible everywhere */
 }
 
 body, html {
@@ -251,7 +251,7 @@ body::after {
     pointer-events: none;
 }
 
-/* Small screen adjustments */
+/* Mobile / small screen safety */
 @media (max-width: 480px) {
     .manifest-text { font-size: clamp(2rem, 14vw, 5rem); letter-spacing: clamp(0.5rem, 6vw, 2.5rem); }
     .manifest-text.sub { font-size: clamp(1rem, 6vw, 2rem); letter-spacing: clamp(0.4rem, 4vw, 1.5rem); }
