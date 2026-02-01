@@ -1,7 +1,7 @@
 {
-  "name": "epic-tech-ai-media-singularity",
+  "name": "epic-tech-ai-free-singularity",
   "version": "1.0.0",
-  "description": "Sovereign Multi-Modal AI Terminal for @Sm0ken420",
+  "description": "Zero-Cost Sovereign Media Interface for @Sm0ken420",
   "main": "api/chat.js",
   "scripts": {
     "start": "vercel dev",
@@ -13,16 +13,6 @@
   "engines": {
     "node": "24.x"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Sm0k367/test.git"
-  },
-  "keywords": [
-    "EpicTechAI",
-    "Sovereign-Intelligence",
-    "Media-Singularity",
-    "G-Funk"
-  ],
   "author": "@Sm0ken420 x Epic Tech AI",
   "license": "MIT"
 }
