@@ -1,0 +1,6 @@
+# KeyMaster Security Protocol
+.env
+.env.local
+node_modules
+.vercel
+*.log
